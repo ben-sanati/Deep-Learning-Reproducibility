@@ -1,0 +1,57 @@
+Args:
+	model: NN
+	optimizer: Adam
+	optimizer_args: {'beta1': 0.9, 'beta2': 0.99}
+	hyperoptimizer: Adam
+	hyperoptimizer_args: {'beta1': 0.9, 'beta2': 0.99}
+	loss_fn: CrossEntropyLoss
+	dataset: MNIST
+	alpha: 0.001
+	kappa: 0.001
+	num_epochs: 30
+	batch_size: 256
+	device: cuda
+
+***Beginning Training***
+	Epoch[1/30]: Training Loss = 0.29589
+	Epoch[2/30]: Training Loss = nan
+	Epoch[3/30]: Training Loss = nan
+	Epoch[4/30]: Training Loss = nan
+	Epoch[5/30]: Training Loss = nan
+	Epoch[6/30]: Training Loss = nan
+	Epoch[7/30]: Training Loss = nan
+	Epoch[8/30]: Training Loss = nan
+	Epoch[9/30]: Training Loss = nan
+	Epoch[10/30]: Training Loss = nan
+	Epoch[11/30]: Training Loss = nan
+	Epoch[12/30]: Training Loss = nan
+	Epoch[13/30]: Training Loss = nan
+	Epoch[14/30]: Training Loss = nan
+	Epoch[15/30]: Training Loss = nan
+	Epoch[16/30]: Training Loss = nan
+	Epoch[17/30]: Training Loss = nan
+	Epoch[18/30]: Training Loss = nan
+	Epoch[19/30]: Training Loss = nan
+	Epoch[20/30]: Training Loss = nan
+	Epoch[21/30]: Training Loss = nan
+	Epoch[22/30]: Training Loss = nan
+	Epoch[23/30]: Training Loss = nan
+	Epoch[24/30]: Training Loss = nan
+	Epoch[25/30]: Training Loss = nan
+	Epoch[26/30]: Training Loss = nan
+	Epoch[27/30]: Training Loss = nan
+	Epoch[28/30]: Training Loss = nan
+	Epoch[29/30]: Training Loss = nan
+	Epoch[30/30]: Training Loss = nan
+***Training Complete***
+
+Final Optimizer Parameters
+	alpha : nan
+	beta1 : nan
+	beta2 : nan
+
+***Testing Results***
+==============================
+Test Accuracy = 9.800 %
+Test Error = 90.200 %
+==============================

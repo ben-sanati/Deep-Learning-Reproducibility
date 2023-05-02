@@ -1,0 +1,57 @@
+Args:
+	model: NN
+	optimizer: Adam
+	optimizer_args: {'beta1': 0.9, 'beta2': 0.99}
+	hyperoptimizer: RMSProp
+	hyperoptimizer_args: {'gamma': 0.99}
+	loss_fn: CrossEntropyLoss
+	dataset: MNIST
+	alpha: 0.001
+	kappa: 1e-05
+	num_epochs: 30
+	batch_size: 256
+	device: cuda
+
+***Beginning Training***
+	Epoch[1/30]: Training Loss = 0.48265
+	Epoch[2/30]: Training Loss = 0.19466
+	Epoch[3/30]: Training Loss = 0.14255
+	Epoch[4/30]: Training Loss = 0.11574
+	Epoch[5/30]: Training Loss = 0.09852
+	Epoch[6/30]: Training Loss = 0.08731
+	Epoch[7/30]: Training Loss = 0.07957
+	Epoch[8/30]: Training Loss = 0.07412
+	Epoch[9/30]: Training Loss = 0.06849
+	Epoch[10/30]: Training Loss = 0.06498
+	Epoch[11/30]: Training Loss = 0.05990
+	Epoch[12/30]: Training Loss = 0.05598
+	Epoch[13/30]: Training Loss = 0.05299
+	Epoch[14/30]: Training Loss = 0.05139
+	Epoch[15/30]: Training Loss = 0.05128
+	Epoch[16/30]: Training Loss = 0.04976
+	Epoch[17/30]: Training Loss = 0.04935
+	Epoch[18/30]: Training Loss = 0.04900
+	Epoch[19/30]: Training Loss = 0.04848
+	Epoch[20/30]: Training Loss = 0.04895
+	Epoch[21/30]: Training Loss = 0.04741
+	Epoch[22/30]: Training Loss = 0.04706
+	Epoch[23/30]: Training Loss = 0.04652
+	Epoch[24/30]: Training Loss = 0.04645
+	Epoch[25/30]: Training Loss = 0.04626
+	Epoch[26/30]: Training Loss = 0.04636
+	Epoch[27/30]: Training Loss = 0.04605
+	Epoch[28/30]: Training Loss = 0.04645
+	Epoch[29/30]: Training Loss = 0.04529
+	Epoch[30/30]: Training Loss = 0.04489
+***Training Complete***
+
+Final Optimizer Parameters
+	alpha : 0.00011385235120542347
+	beta1 : 0.8897392153739929
+	beta2 : 0.9941757917404175
+
+***Testing Results***
+==============================
+Test Accuracy = 97.660 %
+Test Error = 2.340 %
+==============================

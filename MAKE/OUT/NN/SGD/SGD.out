@@ -1,0 +1,56 @@
+Args:
+	model: NN
+	optimizer: SGD
+	optimizer_args: {}
+	hyperoptimizer: SGD
+	hyperoptimizer_args: {}
+	loss_fn: CrossEntropyLoss
+	dataset: MNIST
+	alpha: 0.01
+	kappa: 0.01
+	num_epochs: 30
+	batch_size: 256
+	device: cuda
+
+***Beginning Training***
+	Epoch[1/30]: Training Loss = 0.89846
+	Epoch[2/30]: Training Loss = 0.35070
+	Epoch[3/30]: Training Loss = 0.32076
+	Epoch[4/30]: Training Loss = 0.30527
+	Epoch[5/30]: Training Loss = 0.29495
+	Epoch[6/30]: Training Loss = 0.28929
+	Epoch[7/30]: Training Loss = 0.28569
+	Epoch[8/30]: Training Loss = 0.28255
+	Epoch[9/30]: Training Loss = 0.28042
+	Epoch[10/30]: Training Loss = 0.27991
+	Epoch[11/30]: Training Loss = 0.27932
+	Epoch[12/30]: Training Loss = 0.27920
+	Epoch[13/30]: Training Loss = 0.27874
+	Epoch[14/30]: Training Loss = 0.27809
+	Epoch[15/30]: Training Loss = 0.27765
+	Epoch[16/30]: Training Loss = 0.27515
+	Epoch[17/30]: Training Loss = 0.27074
+	Epoch[18/30]: Training Loss = 0.26748
+	Epoch[19/30]: Training Loss = 0.26508
+	Epoch[20/30]: Training Loss = 0.26295
+	Epoch[21/30]: Training Loss = 0.26065
+	Epoch[22/30]: Training Loss = 0.25759
+	Epoch[23/30]: Training Loss = 0.25489
+	Epoch[24/30]: Training Loss = 0.25236
+	Epoch[25/30]: Training Loss = 0.24992
+	Epoch[26/30]: Training Loss = 0.24786
+	Epoch[27/30]: Training Loss = 0.24626
+	Epoch[28/30]: Training Loss = 0.24440
+	Epoch[29/30]: Training Loss = 0.24298
+	Epoch[30/30]: Training Loss = 0.24170
+***Training Complete***
+
+Final Optimizer Parameters
+	alpha : -0.0027053975500166416
+	mu : 0.0
+
+***Testing Results***
+==============================
+Test Accuracy = 93.450 %
+Test Error = 6.550 %
+==============================
