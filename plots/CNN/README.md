@@ -1,5 +1,4 @@
 # Folder Hierarchy Explanation
-
 .
 └── CNN/
     ├── alpha=0.01/
