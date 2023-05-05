@@ -1,10 +1,15 @@
 import os
 import re
+import argparse
 import pandas as pd
 from tabulate import tabulate
 
 if __name__ == '__main__':
-    root_dir = '/scratch/bes1g19/DeepLearning/CW/MAKE/OUT/NN'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', type=str, default='NN')
+    args = parser.parse_args()
+
+    root_dir = f'/scratch/bes1g19/DeepLearning/CW/MAKE/OUT/{args.model}'
     Optimizer = []
     Hyperoptimizer = []
     TestAccuracy = []
@@ -52,5 +57,5 @@ if __name__ == '__main__':
     df = pd.concat([df.drop('Parameters', axis=1), params_df], axis=1)
 
     table = tabulate(df, headers='keys', tablefmt='grid')
-    df.to_csv('OUT/summary.csv')
+    df.to_csv(f'OUT/{args.model}_summary.csv')
     print(table)

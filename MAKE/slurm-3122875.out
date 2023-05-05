@@ -1,0 +1,34 @@
+Running SLURM prolog script on alpha56.cluster.local
+===============================================================================
+Job started on Fri May  5 15:08:53 BST 2023
+Job ID          : 3122875
+Job name        : summarize_init.sh
+WorkDir         : /mainfs/scratch/bes1g19/DeepLearning/CW/MAKE
+Command         : /scratch/bes1g19/DeepLearning/CW/MAKE/summarize_init.sh
+Partition       : ecsstudents
+Num hosts       : 1
+Num cores       : 16
+Num of tasks    : 16
+Hosts allocated : alpha56
+Job Output Follows ...
+===============================================================================
+==============================================================================
+Running epilogue script on alpha56.
+
+Submit time  : 2023-05-05T15:08:53
+Start time   : 2023-05-05T15:08:53
+End time     : 2023-05-05T15:08:55
+Elapsed time : 00:00:02 (Timelimit=12:00:00)
+
+Job ID: 3122875
+Cluster: i5
+User/Group: bes1g19/fp
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 16
+CPU Utilized: 00:00:03
+CPU Efficiency: 9.38% of 00:00:32 core-walltime
+Job Wall-clock time: 00:00:02
+Memory Utilized: 1.38 MB
+Memory Efficiency: 0.00% of 84.38 GB
+

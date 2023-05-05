@@ -10,11 +10,12 @@ import warnings
 import numpy as np
 import matplotlib.pyplot as plt
 
-from packages.utils.dataset_defs import *
-from packages.utils.train_val import Experimentation
-from packages.models.NN import NeuralNetwork
 from packages.models.CNN import *
+from packages.models.NN import NeuralNetwork
+
+from packages.utils.dataset_defs import *
 from packages.hyperoptimizer.optimize import *
+from packages.utils.train_val import Experimentation
 
 class StoreDictKeyPair(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -103,5 +104,3 @@ if __name__ == '__main__':
         experiments.train()
         experiments.test()
         experiments.plot(args.alpha, kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, hyperoptimizer_args, args.model, f"{args.alpha}/{args.optimizer_args['mu']}")
-    
-
