@@ -59,7 +59,7 @@ for i in $(seq 0 $((${#optimizer[@]} - 1))); do
     opt=${optimizer[$i]}
     opt_args=${optimizer_args[$i]}
 
-    for j in $(seq 0 $((${#optimizer[@]} - 1))); do
+    for j in $(seq 0 $((${#hyperoptimizer[@]} - 1))); do
         # Access the corresponding elements of the hyperoptimizer and hyperoptimizer_args arrays
         hyperopt=${hyperoptimizer[$j]}
         hyperopt_args=${hyperoptimizer_args[$j]}

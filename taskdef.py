@@ -11,8 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from packages.utils.dataset_defs import *
-from packages.utils.train_val import *
+from packages.utils.train_val import Experimentation
 from packages.models.NN import NeuralNetwork
+from packages.models.CNN import *
 from packages.hyperoptimizer.optimize import *
 
 class StoreDictKeyPair(argparse.Action):
@@ -34,10 +35,10 @@ if __name__ == '__main__':
     rms_opt = lambda : gdtuoRMSProp
 
     # function mapping definitions 
-    MODEL_MAP = {'NN': NeuralNetwork(784, 128, 10)}
+    MODEL_MAP = {'NN': NeuralNetwork(784, 128, 10), 'CNN': ResNet(ResidualBlock, [3, 3, 3])}
     LOSS_MAP = {'CrossEntropyLoss': nn.CrossEntropyLoss()}
     OPT_MAP = {'AdaGrad': ada_opt, 'Adam': adam_opt, 'SGD': sgd_opt, 'RMSProp': rms_opt}
-    DATASET_MAP = {'MNIST': mnist}
+    DATASET_MAP = {'MNIST': mnist, 'CIFAR': cifar}
 
     # argument parser
     parser = argparse.ArgumentParser()
@@ -54,25 +55,53 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=256)
     parser.add_argument('--device', type=str, default='cuda')
     args = parser.parse_args()
+
+    if args.model == 'NN':
+        # definitions
+        device = torch.device(args.device)
+        model = MODEL_MAP[args.model].to(device)
+        loss_function = LOSS_MAP[args.loss_fn]
+        optim_func = OPT_MAP[args.optimizer]()
+        hyperoptim_func = OPT_MAP[args.hyperoptimizer]()
+        optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
+        trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
+
+        print(f"Args:")
+        for arg, value in vars(args).items():
+            print(f"\t{arg}: {value}", flush=True)
+
+        # perform experiments
+        experiments = Experimentation(model, loss_function, optimizer, args.num_epochs, trainloader, testloader, device)
+
+        experiments.train()
+        experiments.test()
+        experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.optimizer}/{args.hyperoptimizer}")
+    elif args.model == 'CNN':
+        # definitions
+        device = torch.device(args.device)
+        model = MODEL_MAP[args.model].to(device)
+        loss_function = LOSS_MAP[args.loss_fn] 
+        optim_func = OPT_MAP[args.optimizer]()
+        hyperoptim_func = OPT_MAP[args.hyperoptimizer]()
+
+        kappa = (args.alpha ** 2) * 1e-3
+        hyper_mu = args.optimizer_args['mu']
+        hyper_mu = (1 / (1-hyper_mu)) * 1e-6
+
+        hyperoptimizer_args = {'mu': hyper_mu}
+
+        optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(kappa, mu=hyper_mu))
+        trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
+
+        print(f"Args:")
+        for arg, value in vars(args).items():
+            print(f"\t{arg}: {value}", flush=True)
+
+        # perform experiments
+        experiments = Experimentation(model, loss_function, optimizer, args.num_epochs, trainloader, testloader, device)
+
+        experiments.train()
+        experiments.test()
+        experiments.plot(args.alpha, kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, hyperoptimizer_args, args.model, f"{args.alpha}/{args.optimizer_args['mu']}")
     
-    # definitions
-    device = torch.device(args.device)
-    model = MODEL_MAP[args.model].to(device)
-    loss_function = LOSS_MAP[args.loss_fn]
-    optim_func = OPT_MAP[args.optimizer]()
-    hyperoptim_func = OPT_MAP[args.hyperoptimizer]()
-    optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
-    trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
 
-    print(f"Args:")
-    for arg, value in vars(args).items():
-        print(f"\t{arg}: {value}", flush=True)
-
-    # train 
-    trained_model, optimizer_plots_dict, Epochs = train(model, loss_function, optimizer, args.num_epochs, trainloader, device)
-
-    # test
-    test(trained_model, testloader, device)
-
-    # plot
-    plot(optimizer_plots_dict, Epochs, args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.optimizer}/{args.hyperoptimizer}")

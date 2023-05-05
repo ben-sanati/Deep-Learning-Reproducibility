@@ -13,43 +13,48 @@ Args:
 	device: cuda
 
 ***Beginning Training***
-	Epoch[1/30]: Training Loss = 0.60385
-	Epoch[2/30]: Training Loss = 0.33793
-	Epoch[3/30]: Training Loss = 0.31727
-	Epoch[4/30]: Training Loss = 0.30682
-	Epoch[5/30]: Training Loss = 0.29979
-	Epoch[6/30]: Training Loss = 0.29441
-	Epoch[7/30]: Training Loss = 0.28956
-	Epoch[8/30]: Training Loss = 0.28521
-	Epoch[9/30]: Training Loss = 0.28195
-	Epoch[10/30]: Training Loss = 0.27926
-	Epoch[11/30]: Training Loss = 0.27645
-	Epoch[12/30]: Training Loss = 0.27414
-	Epoch[13/30]: Training Loss = 0.27213
-	Epoch[14/30]: Training Loss = 0.27090
-	Epoch[15/30]: Training Loss = 0.27041
-	Epoch[16/30]: Training Loss = 0.26981
-	Epoch[17/30]: Training Loss = 0.26929
-	Epoch[18/30]: Training Loss = 0.26995
-	Epoch[19/30]: Training Loss = 0.27006
-	Epoch[20/30]: Training Loss = 0.26878
-	Epoch[21/30]: Training Loss = 0.26760
-	Epoch[22/30]: Training Loss = 0.26520
-	Epoch[23/30]: Training Loss = 0.26276
-	Epoch[24/30]: Training Loss = 0.25989
-	Epoch[25/30]: Training Loss = 0.25689
-	Epoch[26/30]: Training Loss = 0.25420
-	Epoch[27/30]: Training Loss = 0.25212
-	Epoch[28/30]: Training Loss = 0.24995
-	Epoch[29/30]: Training Loss = 0.24840
-	Epoch[30/30]: Training Loss = 0.24713
+	Epoch[1/30]: Training Loss = 0.59185
+	Epoch[2/30]: Training Loss = 0.32492
+	Epoch[3/30]: Training Loss = 0.30255
+	Epoch[4/30]: Training Loss = 0.29189
+	Epoch[5/30]: Training Loss = 0.28757
+	Epoch[6/30]: Training Loss = 0.28389
+	Epoch[7/30]: Training Loss = 0.27975
+	Epoch[8/30]: Training Loss = 0.27626
+	Epoch[9/30]: Training Loss = 0.27405
+	Epoch[10/30]: Training Loss = 0.27294
+	Epoch[11/30]: Training Loss = 0.27120
+	Epoch[12/30]: Training Loss = 0.26936
+	Epoch[13/30]: Training Loss = 0.26733
+	Epoch[14/30]: Training Loss = 0.26494
+	Epoch[15/30]: Training Loss = 0.26241
+	Epoch[16/30]: Training Loss = 0.25973
+	Epoch[17/30]: Training Loss = 0.25823
+	Epoch[18/30]: Training Loss = 0.25688
+	Epoch[19/30]: Training Loss = 0.25534
+	Epoch[20/30]: Training Loss = 0.25361
+	Epoch[21/30]: Training Loss = 0.25150
+	Epoch[22/30]: Training Loss = 0.24964
+	Epoch[23/30]: Training Loss = 0.24806
+	Epoch[24/30]: Training Loss = 0.24703
+	Epoch[25/30]: Training Loss = 0.24599
+	Epoch[26/30]: Training Loss = 0.24371
+	Epoch[27/30]: Training Loss = 0.24083
+	Epoch[28/30]: Training Loss = 0.23842
+	Epoch[29/30]: Training Loss = 0.23578
+	Epoch[30/30]: Training Loss = 0.23281
 ***Training Complete***
 
 Final Optimizer Parameters
-	alpha : 0.003911402076482773
+	alpha : 0.005761207081377506
 
 ***Testing Results***
 ==============================
-Test Accuracy = 93.190 %
-Test Error = 6.810 %
+Test Accuracy = 93.600 %
+Test Error = 6.400 %
 ==============================
+
+Plotted Lists:
+Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+alpha: [0.009999999776482582, 0.029325174167752266, 0.014639908447861671, 0.0083600590005517, 0.003722572233527899, 0.004543570335954428, 0.004609189927577972, 0.00413306662812829, 0.0034990839194506407, 0.0017945843283087015, 0.0029449407011270523, 0.002772183623164892, 0.0036095145624130964, 0.002441782271489501, 0.0026961490511894226, 0.0026171542704105377, 0.0012576075969263911, 0.001991067547351122, 0.002442118478938937, 0.0026543918065726757, 0.003375026863068342, 0.002952646231278777, 0.0029114107601344585, 0.0019388181390240788, 0.0023860661312937737, 0.004343543667346239, 0.004375243093818426, 0.004075790289789438, 0.005264896899461746, 0.00612559262663126, 0.005761207081377506]
+Loss: [2.310397798538208, 0.5918486703395843, 0.32492019883791606, 0.3025534247080485, 0.2918890054384867, 0.28757034447193147, 0.2838886773109436, 0.2797488946914673, 0.2762594119469325, 0.27404860887527466, 0.27294162629445395, 0.2712015364011129, 0.26935525238513947, 0.2673292401154836, 0.2649394447962443, 0.26240658446947734, 0.25972910850842795, 0.25823456635475156, 0.2568764711697896, 0.255339345852534, 0.25360678906440737, 0.2515046187718709, 0.24964141372044882, 0.24805798194011053, 0.24703309756120045, 0.24599140821297963, 0.24370777665774027, 0.24082588427861532, 0.23841679564317067, 0.2357760101636251, 0.2328113780260086]
