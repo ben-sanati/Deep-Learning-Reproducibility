@@ -87,20 +87,20 @@ class Experimentation:
             train_loss = running_loss / n
         
         self.optimizer_plots_dict['Loss'] = [train_loss]
-        print(f"Training Loss: {train_loss}")
 
         # clear memory
-        del train_loss
-        del running_loss
-        del n
-        del features_
-        del features
-        del labels_
-        del labels
-        del h
-        del pred
-        torch.cuda.empty_cache()
-        gc.collect()
+        if self.model_name == 'CharRNN':
+            del train_loss
+            del running_loss
+            del n
+            del features_
+            del features
+            del labels_
+            del labels
+            del h
+            del pred
+            torch.cuda.empty_cache()
+            gc.collect()
             
         for epoch in range(1, self.num_epochs+1):
             # training loop
@@ -143,13 +143,14 @@ class Experimentation:
                 n += 1
 
                 # clear memory
-                del features_
-                del features
-                del labels_
-                del labels
-                del pred
-                torch.cuda.empty_cache()
-                gc.collect()
+                if self.model_name == 'CharRNN':
+                    del features_
+                    del features
+                    del labels_
+                    del labels
+                    del pred
+                    torch.cuda.empty_cache()
+                    gc.collect()
 
             if self.model_name != 'CharRNN':
                 train_loss = running_loss / trainset_length
@@ -165,13 +166,14 @@ class Experimentation:
             self.Epochs.append(epoch)
 
             # clear memory
-            del train_loss
-            del running_loss
-            del n
-            del h
-            del self.trainloader
-            torch.cuda.empty_cache()
-            gc.collect()
+            if self.model_name == 'CharRNN':
+                del train_loss
+                del running_loss
+                del n
+                del h
+                del self.trainloader
+                torch.cuda.empty_cache()
+                gc.collect()
 
         print(f"***Training Complete***\n")
         print(f"Final Optimizer Parameters")
@@ -184,7 +186,7 @@ class Experimentation:
         self.model.eval()
         with torch.no_grad():
             total, correct = 0, 0
-            # training loop
+            # validation 
             if self.model_name == 'CharRNN':
                 num_layers = 2
                 hidden_size = 128
@@ -213,21 +215,23 @@ class Experimentation:
                 correct += (prediction == labels).sum().item()
 
                 # clear memory
-                del features_
-                del features
-                del labels_
-                del labels
-                del outputs
-                torch.cuda.empty_cache()
-                gc.collect()
+                if self.model_name == 'CharRNN':
+                    del features_
+                    del features
+                    del labels_
+                    del labels
+                    del outputs
+                    torch.cuda.empty_cache()
+                    gc.collect()
 
             test_accuracy = (100.0 * correct) / total
 
             # clear memory
-            del h
-            del self.testloader
-            torch.cuda.empty_cache()
-            gc.collect()
+            if self.model_name == 'CharRNN':
+                del h
+                del self.testloader
+                torch.cuda.empty_cache()
+                gc.collect()
         
         print(f"Test Accuracy = {test_accuracy:.3f} %", flush=True)
         print(f"Test Error = {100-test_accuracy:.3f} %", flush=True)

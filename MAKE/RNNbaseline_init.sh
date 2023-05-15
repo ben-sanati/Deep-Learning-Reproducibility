@@ -15,12 +15,11 @@ hyperoptimizer=NoOp
 hyperoptimizer_args=""
 loss_fn=CrossEntropyLoss
 dataset=WarAndPeace
-num_epochs=2
+num_epochs=30
 alpha=0.002
-kappa=0.01
 batch_size=128
 device='cuda'
 baseline=True
 
-python /scratch/bes1g19/DeepLearning/CW/taskdef.py --model $model --baseline $baseline --optimizer $optimizer --optimizer_args $optimizer_args --hyperoptimizer $hyperoptimizer --hyperoptimizer_args $hyperoptimizer_args  --alpha $alpha --kappa $kappa --loss_fn $loss_fn --num_epochs $num_epochs --dataset $dataset --batch_size $batch_size --device $device &> /scratch/bes1g19/DeepLearning/CW/MAKE/OUT/$model/baseline.out
+python /scratch/bes1g19/DeepLearning/CW/taskdef.py --model $model --baseline $baseline --optimizer $optimizer --optimizer_args $optimizer_args --hyperoptimizer $hyperoptimizer --hyperoptimizer_args $hyperoptimizer_args  --alpha $alpha --loss_fn $loss_fn --num_epochs $num_epochs --dataset $dataset --batch_size $batch_size --device $device &> /scratch/bes1g19/DeepLearning/CW/MAKE/OUT/$model/baseline.out
 find -type f -name '*slurm*' -delete

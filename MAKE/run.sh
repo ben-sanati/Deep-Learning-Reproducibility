@@ -1,4 +1,4 @@
 root="\"/scratch/bes1g19/DeepLearning/CW/MAKE/\""
 
 # train each model
-eval sbatch $root"RNN_init.sh"
+eval sbatch $root"NNbaseline_init.sh"

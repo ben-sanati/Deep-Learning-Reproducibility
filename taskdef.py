@@ -54,11 +54,9 @@ if __name__ == '__main__':
     parser.add_argument('--loss_fn', choices=LOSS_MAP.keys(), required=True)
     parser.add_argument('--dataset', choices=DATASET_MAP.keys(), required=True)
     parser.add_argument('--alpha', type=float, default=0.01)
-    parser.add_argument('--kappa', type=float, default=1e-5)
+    parser.add_argument('--kappa', type=float, default=None)
     parser.add_argument('--num_epochs', type=int, default=5)
     parser.add_argument('--batch_size', type=int, default=256)
-    parser.add_argument('--save_model', type=str, default='False')
-    parser.add_argument('--load_model', type=str, default='False')
     parser.add_argument('--baseline', type=str, default='False')
     parser.add_argument('--device', type=str, default='cuda')
     args = parser.parse_args()
@@ -72,7 +70,10 @@ if __name__ == '__main__':
     if args.model == 'NN':
         # optimizer definition
         model = MODEL_MAP[args.model].to(device)
-        optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
+        if args.baseline == 'True':
+            optimizer = optim_func(alpha=args.alpha, **args.optimizer_args)
+        else:
+            optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
         trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
 
         # logging
@@ -85,7 +86,10 @@ if __name__ == '__main__':
 
         experiments.train()
         experiments.test()
-        experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.optimizer}/{args.hyperoptimizer}")
+        if args.baseline == 'True':
+            experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.optimizer}")
+        else:
+            experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.optimizer}/{args.hyperoptimizer}")
     elif args.model == 'CNN':
         # optimizer definition
         model = MODEL_MAP[args.model].to(device)    
@@ -95,7 +99,11 @@ if __name__ == '__main__':
 
         hyperoptimizer_args = {'mu': hyper_mu}
 
-        optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(kappa, mu=hyper_mu))
+        if args.baseline == 'True':
+            optimizer = optim_func(alpha=args.alpha, **args.optimizer_args)
+        else:
+            optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
+
         trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
 
         # logging
@@ -108,7 +116,10 @@ if __name__ == '__main__':
 
         experiments.train()
         experiments.test()
-        experiments.plot(args.alpha, kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, hyperoptimizer_args, args.model, f"{args.alpha}/{args.optimizer_args['mu']}")
+        if args.baseline == 'True':
+            experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"baseline")
+        else:
+            experiments.plot(args.alpha, kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, hyperoptimizer_args, args.model, f"{args.alpha}/{args.optimizer_args['mu']}")
     elif args.model == 'CharRNN':
         # define model with tokens
         with open('/scratch/bes1g19/DeepLearning/CW/data/WarAndPeace/war_peace_plain.txt', 'r') as f:
@@ -117,7 +128,11 @@ if __name__ == '__main__':
         model = CharRNN(chars, batch_size=args.batch_size, n_hidden=128, n_layers=2, drop_prob=0.5).to(device)
 
         # optimizer definition
-        optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
+        if args.baseline == 'True':
+            optimizer = optim_func(alpha=args.alpha, **args.optimizer_args)
+        else:
+            optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
+        
         trainset, testset, dataloader_iterators = DATASET_MAP[args.dataset](args.batch_size, num_steps=100, logging=False)
         recall_dataloaders = {'call': DATASET_MAP[args.dataset](args.batch_size, num_steps=100)}
         

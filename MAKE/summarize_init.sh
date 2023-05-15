@@ -8,6 +8,6 @@
 #SBATCH --gres=gpu:4
 #SBATCH --mail-type=ALL
 
-model='CNN'
+model='NN'
 
 python /scratch/bes1g19/DeepLearning/CW/summarise.py --model $model &> "/scratch/bes1g19/DeepLearning/CW/MAKE/OUT/"$model"_summary.out"
