@@ -13,9 +13,9 @@ Args:
 	device: cuda
 
 ***Beginning Training***
-	Epoch[1/30]: Training Loss = 0.29890
-	Epoch[2/30]: Training Loss = 0.10199
-	Epoch[3/30]: Training Loss = 0.07960
+	Epoch[1/30]: Training Loss = 0.30026
+	Epoch[2/30]: Training Loss = nan
+	Epoch[3/30]: Training Loss = nan
 	Epoch[4/30]: Training Loss = nan
 	Epoch[5/30]: Training Loss = nan
 	Epoch[6/30]: Training Loss = nan
@@ -58,7 +58,7 @@ Test Error = 90.200 %
 
 Plotted Lists:
 Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
-alpha: [0.0010000000474974513, 0.008515284396708012, 0.0007863827631808817, 0.0007684532320126891, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
-beta1: [0.8999999761581421, 0.8638630509376526, 0.8513490557670593, 0.8192986845970154, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
-beta2: [0.9900000095367432, 0.9983927607536316, 0.9956198334693909, 0.998616099357605, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
-Loss: [2.3005165735880535, 0.2988993721147378, 0.10199440664847692, 0.07959960363308588, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+alpha: [0.0010000000474974513, 0.00826183706521988, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+beta1: [0.8999999761581421, 0.8678493499755859, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+beta2: [0.9900000095367432, 0.995979905128479, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+Loss: [2.3133857866923013, 0.30026438418626783, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]

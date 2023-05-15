@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 
 from packages.models.CNN import *
 from packages.models.NN import NeuralNetwork
+from packages.models.CharRNN import CharRNN
 
 from packages.utils.dataset_defs import *
 from packages.hyperoptimizer.optimize import *
@@ -32,14 +33,16 @@ if __name__ == '__main__':
     # optimizer definitions
     ada_opt = lambda : gdtuoAdaGrad
     adam_opt = lambda : gdtuoAdam
+    adam_baydin = lambda : gdtuoAdamBaydin
     sgd_opt = lambda : gdtuoSGD
     rms_opt = lambda : gdtuoRMSProp
+    noop = lambda : NoOpOptimizer
 
     # function mapping definitions 
-    MODEL_MAP = {'NN': NeuralNetwork(784, 128, 10), 'CNN': ResNet(ResidualBlock, [3, 3, 3])}
+    MODEL_MAP = {'NN': NeuralNetwork(784, 128, 10), 'CNN': ResNet(ResidualBlock, [3, 3, 3]), 'CharRNN': None}
     LOSS_MAP = {'CrossEntropyLoss': nn.CrossEntropyLoss()}
-    OPT_MAP = {'AdaGrad': ada_opt, 'Adam': adam_opt, 'SGD': sgd_opt, 'RMSProp': rms_opt}
-    DATASET_MAP = {'MNIST': mnist, 'CIFAR': cifar}
+    OPT_MAP = {'AdaGrad': ada_opt, 'Adam': adam_opt, 'Adam_alpha': adam_baydin, 'SGD': sgd_opt, 'RMSProp': rms_opt, 'NoOp': noop}
+    DATASET_MAP = {'MNIST': mnist, 'CIFAR': cifar, 'WarAndPeace': WarAndPeace}
 
     # argument parser
     parser = argparse.ArgumentParser()
@@ -54,37 +57,38 @@ if __name__ == '__main__':
     parser.add_argument('--kappa', type=float, default=1e-5)
     parser.add_argument('--num_epochs', type=int, default=5)
     parser.add_argument('--batch_size', type=int, default=256)
+    parser.add_argument('--save_model', type=str, default='False')
+    parser.add_argument('--load_model', type=str, default='False')
+    parser.add_argument('--baseline', type=str, default='False')
     parser.add_argument('--device', type=str, default='cuda')
     args = parser.parse_args()
+    
+    # definitions
+    device = torch.device(args.device)
+    loss_function = LOSS_MAP[args.loss_fn] 
+    optim_func = OPT_MAP[args.optimizer]()
+    hyperoptim_func = OPT_MAP[args.hyperoptimizer]()
 
     if args.model == 'NN':
-        # definitions
-        device = torch.device(args.device)
+        # optimizer definition
         model = MODEL_MAP[args.model].to(device)
-        loss_function = LOSS_MAP[args.loss_fn]
-        optim_func = OPT_MAP[args.optimizer]()
-        hyperoptim_func = OPT_MAP[args.hyperoptimizer]()
         optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
         trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
 
+        # logging
         print(f"Args:")
         for arg, value in vars(args).items():
             print(f"\t{arg}: {value}", flush=True)
 
         # perform experiments
-        experiments = Experimentation(model, loss_function, optimizer, args.num_epochs, trainloader, testloader, device)
+        experiments = Experimentation(model, args.model, loss_function, optimizer, args.num_epochs, trainloader, testloader, args.batch_size, device)
 
         experiments.train()
         experiments.test()
         experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.optimizer}/{args.hyperoptimizer}")
     elif args.model == 'CNN':
-        # definitions
-        device = torch.device(args.device)
-        model = MODEL_MAP[args.model].to(device)
-        loss_function = LOSS_MAP[args.loss_fn] 
-        optim_func = OPT_MAP[args.optimizer]()
-        hyperoptim_func = OPT_MAP[args.hyperoptimizer]()
-
+        # optimizer definition
+        model = MODEL_MAP[args.model].to(device)    
         kappa = (args.alpha ** 2) * 1e-3
         hyper_mu = args.optimizer_args['mu']
         hyper_mu = (1 / (1-hyper_mu)) * 1e-6
@@ -94,13 +98,42 @@ if __name__ == '__main__':
         optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(kappa, mu=hyper_mu))
         trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
 
+        # logging
         print(f"Args:")
         for arg, value in vars(args).items():
             print(f"\t{arg}: {value}", flush=True)
 
         # perform experiments
-        experiments = Experimentation(model, loss_function, optimizer, args.num_epochs, trainloader, testloader, device)
+        experiments = Experimentation(model, args.model, loss_function, optimizer, args.num_epochs, trainloader, testloader, args.batch_size, device)
 
         experiments.train()
         experiments.test()
         experiments.plot(args.alpha, kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, hyperoptimizer_args, args.model, f"{args.alpha}/{args.optimizer_args['mu']}")
+    elif args.model == 'CharRNN':
+        # define model with tokens
+        with open('/scratch/bes1g19/DeepLearning/CW/data/WarAndPeace/war_peace_plain.txt', 'r') as f:
+            text = f.read()
+        chars = tuple(set(text))
+        model = CharRNN(chars, batch_size=args.batch_size, n_hidden=128, n_layers=2, drop_prob=0.5).to(device)
+
+        # optimizer definition
+        optimizer = optim_func(alpha=args.alpha, **args.optimizer_args, optimizer=hyperoptim_func(args.kappa, **args.hyperoptimizer_args))
+        trainset, testset, dataloader_iterators = DATASET_MAP[args.dataset](args.batch_size, num_steps=100, logging=False)
+        recall_dataloaders = {'call': DATASET_MAP[args.dataset](args.batch_size, num_steps=100)}
+        
+        # logging
+        print(f"Args:")
+        for arg, value in vars(args).items():
+            print(f"\t{arg}: {value}", flush=True)
+
+        # perform experiments
+        experiments = Experimentation(model, args.model, loss_function, optimizer, args.num_epochs, None, None, args.batch_size, device, num_steps=100, dataloader_iterators=dataloader_iterators, train_set=trainset, test_set=testset)
+
+        experiments.train(recall_dataloaders)
+        experiments.test()
+        if args.baseline == 'True':
+            experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"baseline")
+        else:
+            experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.alpha}")
+    elif args.model == 'stacking':
+        pass

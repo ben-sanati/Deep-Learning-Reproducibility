@@ -1,27 +1,45 @@
+import gc
 import math
 import torch
 import warnings
+import operator
 import numpy as np
+from itertools import tee
+from functools import reduce
 import matplotlib.pyplot as plt
 from packages.hyperoptimizer.optimize import *
 from packages.utils.plotting_utils import *
 
+from torch.nn.parallel import DataParallel
+from torch.cuda.amp import autocast, GradScaler
+
 
 class Experimentation:
-    def __init__(self, model, loss_fn, optimizer, num_epochs, trainloader, testloader, device):
+    def __init__(self, model, model_name, loss_fn, optimizer, num_epochs, trainloader, testloader, batch_size, device, num_steps=None, dataloader_iterators=None, train_set=None, test_set=None):
         self.model = model
+        self.model_name = model_name
         self.loss_fn = loss_fn
         self.optimizer = optimizer
         self.num_epochs = num_epochs
         self.trainloader = trainloader
         self.testloader = testloader 
+        self.batch_size = batch_size
+        self.num_steps = num_steps
         self.device = device 
+        self.dataloader_iterators = dataloader_iterators
+        self.trainset = train_set
+        self.testset = test_set
         
         # initialise logging for plots
         self.optimizer_plots_dict = {key: [value.item()] for key, value in optimizer.parameters.items()}
         self.Epochs = [0]
 
-    def train(self):
+        if torch.cuda.device_count() > 1:
+            print("Using", torch.cuda.device_count(), "GPUs")
+            self.model = DataParallel(self.model)
+        self.model.to(self.device)
+
+    def train(self, recall=None):
         warnings.filterwarnings("ignore")
 
         print(f"\n***Beginning Training***")
@@ -31,41 +49,129 @@ class Experimentation:
         mw.initialize()
 
         # get the initial loss
+        trainset_length = len(self.trainloader.dataset) if self.model_name != 'CharRNN' else None
         running_loss = 0.0
+        if self.model_name == 'CharRNN':
+            num_layers = 2
+            hidden_size = 128
+            h = torch.zeros(num_layers, int(self.batch_size / torch.cuda.device_count()), hidden_size)
+            c = torch.zeros(num_layers, int(self.batch_size / torch.cuda.device_count()), hidden_size)
+            h = (h, c)
+            self.trainloader = self.dataloader_iterators['get_batches'](self.trainset)
+
+        n = 0
         for index, (features_, labels_) in enumerate(self.trainloader):
-            features, labels = features_.to(device), labels_.to(device)
-
             # forward pass
-            pred = mw.forward(features)
-            loss = loss_fn(pred, labels)
+            if self.model_name == 'CharRNN':
+                with autocast():
+                    features_ = self.one_hot_encode(features_, len(self.model.module.chars))
+                    features_, labels_ = torch.from_numpy(features_), torch.from_numpy(labels_)
+                    features, labels = features_.to(self.device), labels_.to(self.device)
+                    h = tuple([each.data for each in h])
+                    pred, h = mw.forward(features)
+                    labels = labels.view(self.batch_size*self.num_steps).type(torch.LongTensor).to(self.device)
+            else:
+                features, labels = features_.to(self.device), labels_.to(self.device)
+                pred = mw.forward(features)
 
-            running_loss += loss.item() * features_.size(0)
-        train_loss = running_loss / len(self.trainloader.dataset)
+            loss = self.loss_fn(pred, labels)
+            if torch.cuda.device_count() > 1:
+                loss = loss.mean() # take mean of loss across multiple GPUs
+
+            running_loss += loss.item()
+            n += 1
+
+        if self.model_name != 'CharRNN':
+            train_loss = running_loss / trainset_length
+        else:
+            train_loss = running_loss / n
+        
         self.optimizer_plots_dict['Loss'] = [train_loss]
+        print(f"Training Loss: {train_loss}")
 
-        # training loop
+        # clear memory
+        del train_loss
+        del running_loss
+        del n
+        del features_
+        del features
+        del labels_
+        del labels
+        del h
+        del pred
+        torch.cuda.empty_cache()
+        gc.collect()
+            
         for epoch in range(1, self.num_epochs+1):
+            # training loop
+            if self.model_name == 'CharRNN':
+                num_layers = 2
+                hidden_size = 128
+                h = torch.zeros(num_layers, int(self.batch_size / torch.cuda.device_count()), hidden_size)
+                c = torch.zeros(num_layers, int(self.batch_size / torch.cuda.device_count()), hidden_size)
+                h = (h, c)
+                self.trainloader = self.dataloader_iterators['get_batches'](self.trainset)
+            
             running_loss = 0.0
+            n = 0
             for index, (features_, labels_) in enumerate(self.trainloader):
                 mw.begin() # call this before each step, enables gradient tracking on desired params
-                features, labels = features_.to(self.device), labels_.to(self.device)
-
+                
                 # forward pass
-                pred = mw.forward(features)
+                if self.model_name == 'CharRNN':
+                    with autocast():
+                        features_ = self.one_hot_encode(features_, len(self.model.module.chars))
+                        features_, labels_ = torch.from_numpy(features_), torch.from_numpy(labels_)
+                        features, labels = features_.to(self.device), labels_.to(self.device)
+                        h = tuple([each.data for each in h])
+                        pred, h = mw.forward(features)
+                        labels = labels.view(self.batch_size*self.num_steps).type(torch.LongTensor).to(self.device)
+                else:
+                    features, labels = features_.to(self.device), labels_.to(self.device)
+                    pred = mw.forward(features)
+
                 loss = self.loss_fn(pred, labels)
+                if torch.cuda.device_count() > 1:
+                    loss = loss.mean() # take mean of loss across multiple GPUs
 
                 # backward pass
                 mw.zero_grad()
                 loss.backward(create_graph=True) # important! use create_graph=True
                 mw.step()
-                running_loss += loss.item() * features_.size(0)
-            train_loss = running_loss / len(self.trainloader.dataset)
+
+                running_loss += loss.item() * features_.size(0) if self.model_name != 'CharRNN' else loss.item()
+                n += 1
+
+                # clear memory
+                del features_
+                del features
+                del labels_
+                del labels
+                del pred
+                torch.cuda.empty_cache()
+                gc.collect()
+
+            if self.model_name != 'CharRNN':
+                train_loss = running_loss / trainset_length
+            else:
+                train_loss = running_loss / n
+
+
             print(f"\tEpoch[{epoch}/{self.num_epochs}]: Training Loss = {train_loss:.5f}", flush=True)
 
             for key, value in self.optimizer.parameters.items():
                 self.optimizer_plots_dict[key].append(value.item())
             self.optimizer_plots_dict['Loss'].append(train_loss)
             self.Epochs.append(epoch)
+
+            # clear memory
+            del train_loss
+            del running_loss
+            del n
+            del h
+            del self.trainloader
+            torch.cuda.empty_cache()
+            gc.collect()
 
         print(f"***Training Complete***\n")
         print(f"Final Optimizer Parameters")
@@ -78,16 +184,50 @@ class Experimentation:
         self.model.eval()
         with torch.no_grad():
             total, correct = 0, 0
+            # training loop
+            if self.model_name == 'CharRNN':
+                num_layers = 2
+                hidden_size = 128
+                h = torch.zeros(num_layers, int(self.batch_size / torch.cuda.device_count()), hidden_size)
+                c = torch.zeros(num_layers, int(self.batch_size / torch.cuda.device_count()), hidden_size)
+                h = (h, c)
+                self.testloader = self.dataloader_iterators['get_batches'](self.testset)
+
             for index, (features_, labels_) in enumerate(self.testloader):
-                features, labels = features_.to(self.device), labels_.to(self.device)
-                outputs = self.model.forward(features)
+                # forward pass
+                if self.model_name == 'CharRNN':
+                    with autocast():
+                        features_ = self.one_hot_encode(features_, len(self.model.module.chars))
+                        features_, labels_ = torch.from_numpy(features_), torch.from_numpy(labels_)
+                        features, labels = features_.to(self.device), labels_.to(self.device)
+                        h = tuple([each.data for each in h])
+                        outputs, h = self.model.forward(features)
+                        labels = labels.view(self.batch_size*self.num_steps).type(torch.LongTensor).to(self.device)
+                else:
+                    features, labels = features_.to(self.device), labels_.to(self.device)
+                    outputs = self.model.forward(features)
                 
                 # top-1 accuracy
                 _, prediction = torch.max(outputs, dim=1)
                 total += labels.shape[0]
                 correct += (prediction == labels).sum().item()
 
+                # clear memory
+                del features_
+                del features
+                del labels_
+                del labels
+                del outputs
+                torch.cuda.empty_cache()
+                gc.collect()
+
             test_accuracy = (100.0 * correct) / total
+
+            # clear memory
+            del h
+            del self.testloader
+            torch.cuda.empty_cache()
+            gc.collect()
         
         print(f"Test Accuracy = {test_accuracy:.3f} %", flush=True)
         print(f"Test Error = {100-test_accuracy:.3f} %", flush=True)
@@ -141,3 +281,16 @@ class Experimentation:
         plt.suptitle(f"Plots Showing the Optimization of Loss and Hyperparameters against Epochs\nOptimizer [{opt} alpha={alpha} {opt_args}] : Hyperoptimizer [{hyp} kappa={kappa} {hyp_args}]", fontsize=16)
         plt.tight_layout()
         plt.savefig(f'../plots/{src}/{path}.png')
+
+    @staticmethod
+    def one_hot_encode(arr, n_labels):
+        # Initialize the the encoded array
+        one_hot = np.zeros((reduce(operator.mul, arr.shape), n_labels), dtype=np.float32)
+        
+        # Fill the appropriate elements with ones
+        one_hot[np.arange(one_hot.shape[0]), arr.flatten()] = 1.
+        
+        # Finally reshape it to get back to the original array
+        one_hot = one_hot.reshape((*arr.shape, n_labels))
+        
+        return one_hot
