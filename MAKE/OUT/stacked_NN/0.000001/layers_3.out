@@ -1,0 +1,68 @@
+Args:
+	model: stacked_NN
+	optimizer: SGD
+	optimizer_args: {}
+	hyperoptimizer: RMSProp
+	hyperoptimizer_args: {}
+	num_hyperoptimizers: 3
+	loss_fn: CrossEntropyLoss
+	dataset: MNIST
+	alpha: 1e-06
+	kappa: None
+	num_epochs: 10
+	batch_size: 1024
+	baseline: False
+	device: cuda
+	Alpha Values: {0: 1e-06, 1: 5e-09, 2: 3.333333333333333e-09, 3: 2.5e-09}
+	Using 4 GPUs
+
+***Beginning Training***
+	Epoch[1/10]: Training Loss = 2.30346
+	Epoch[2/10]: Training Loss = 2.30345
+	Epoch[3/10]: Training Loss = 2.30344
+	Epoch[4/10]: Training Loss = 2.30342
+	Epoch[5/10]: Training Loss = 2.30339
+	Epoch[6/10]: Training Loss = 2.30337
+	Epoch[7/10]: Training Loss = 2.30334
+	Epoch[8/10]: Training Loss = 2.30331
+	Epoch[9/10]: Training Loss = 2.30328
+	Epoch[10/10]: Training Loss = 2.30324
+***Training Complete***
+
+Final Optimizer Parameters
+	alpha : 4.000682565674651e-06
+	mu : 0.0
+
+***Testing Results***
+==============================
+Test Accuracy = 10.510 %
+Test Error = 89.490 %
+==============================
+
+Plotted Lists:
+Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+alpha: [9.999999974752427e-07, 1.327901145486976e-06, 1.6233097994700074e-06, 1.9182134565198794e-06, 2.215369477198692e-06, 2.510586000425974e-06, 2.808504632412223e-06, 3.1063957521837438e-06, 3.404246626814711e-06, 3.701990863191895e-06, 4.000682565674651e-06]
+mu: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Loss: [0.0022650638620058693, 2.303464699554443, 2.303451533126831, 2.303435394668579, 2.3034162686665853, 2.3033941949208576, 2.303369114049276, 2.3033410592397052, 2.30331003519694, 2.3032760025024412, 2.3032389414469403]
+Traceback (most recent call last):
+  File "/scratch/bes1g19/DeepLearning/CW/taskdef.py", line 192, in <module>
+    experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.alpha}/{args.num_hyperoptimizers}")
+  File "/mainfs/scratch/bes1g19/DeepLearning/CW/packages/utils/train_val.py", line 287, in plot
+    plt.savefig(f'../plots/{src}/{path}.png')
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/pyplot.py", line 977, in savefig
+    res = fig.savefig(*args, **kwargs)
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/figure.py", line 3058, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/backend_bases.py", line 2319, in print_figure
+    result = print_method(
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/backend_bases.py", line 1648, in wrapper
+    return func(*args, **kwargs)
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/_api/deprecation.py", line 415, in wrapper
+    return func(*inner_args, **inner_kwargs)
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/backends/backend_agg.py", line 541, in print_png
+    mpl.image.imsave(
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/image.py", line 1675, in imsave
+    image.save(fname, **pil_kwargs)
+  File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/PIL/Image.py", line 2317, in save
+    fp = builtins.open(filename, "w+b")
+FileNotFoundError: [Errno 2] No such file or directory: '../plots/stacked_NN/1e-06/3.png'

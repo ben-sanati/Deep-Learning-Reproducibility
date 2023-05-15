@@ -35,7 +35,7 @@ class Experimentation:
         self.Epochs = [0]
 
         if torch.cuda.device_count() > 1:
-            print("Using", torch.cuda.device_count(), "GPUs")
+            print("\tUsing", torch.cuda.device_count(), "GPUs")
             self.model = DataParallel(self.model)
         self.model.to(self.device)
 

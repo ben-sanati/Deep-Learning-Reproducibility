@@ -1,0 +1,46 @@
+Args:
+	model: stacked_NN
+	optimizer: SGD
+	optimizer_args: {}
+	hyperoptimizer: RMSProp
+	hyperoptimizer_args: {}
+	num_hyperoptimizers: 3
+	loss_fn: CrossEntropyLoss
+	dataset: MNIST
+	alpha: 0.0001
+	kappa: None
+	num_epochs: 10
+	batch_size: 1024
+	baseline: False
+	device: cuda
+	Alpha Values: {0: 0.0001, 1: 5e-07, 2: 3.3333333333333335e-07, 3: 2.5e-07}
+	Using 4 GPUs
+
+***Beginning Training***
+	Epoch[1/10]: Training Loss = 2.29610
+	Epoch[2/10]: Training Loss = 2.29473
+	Epoch[3/10]: Training Loss = 2.29303
+	Epoch[4/10]: Training Loss = 2.29100
+	Epoch[5/10]: Training Loss = 2.28860
+	Epoch[6/10]: Training Loss = 2.28582
+	Epoch[7/10]: Training Loss = 2.28265
+	Epoch[8/10]: Training Loss = 2.27906
+	Epoch[9/10]: Training Loss = 2.27503
+	Epoch[10/10]: Training Loss = 2.27054
+***Training Complete***
+
+Final Optimizer Parameters
+	alpha : 0.00048144307220354676
+	mu : 0.0
+
+***Testing Results***
+==============================
+Test Accuracy = 20.160 %
+Test Error = 79.840 %
+==============================
+
+Plotted Lists:
+Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+alpha: [9.999999747378752e-05, 0.0001332344691036269, 0.0001651114725973457, 0.0001985005073947832, 0.00023348245304077864, 0.0002703596546780318, 0.00030890750349499285, 0.0003492095274850726, 0.0003912874963134527, 0.000435442227171734, 0.00048144307220354676]
+mu: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Loss: [0.0022583929459253946, 2.2961002911885577, 2.294730919265747, 2.293034804789225, 2.2909963166554768, 2.288598095194499, 2.285823827616374, 2.2826505175272622, 2.2790613808949787, 2.2750329383850096, 2.270541704305013]

@@ -1,3 +1,4 @@
+import math
 import torch
 import subprocess
 import torch.nn as nn
@@ -9,6 +10,7 @@ import argparse
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
+from math import floor, log10, inf
 
 from packages.models.CNN import *
 from packages.models.NN import NeuralNetwork
@@ -39,7 +41,7 @@ if __name__ == '__main__':
     noop = lambda : NoOpOptimizer
 
     # function mapping definitions 
-    MODEL_MAP = {'NN': NeuralNetwork(784, 128, 10), 'CNN': ResNet(ResidualBlock, [3, 3, 3]), 'CharRNN': None}
+    MODEL_MAP = {'NN': NeuralNetwork(784, 128, 10), 'stacked_NN': NeuralNetwork(784, 128, 10), 'CNN': ResNet(ResidualBlock, [3, 3, 3]), 'CharRNN': None}
     LOSS_MAP = {'CrossEntropyLoss': nn.CrossEntropyLoss()}
     OPT_MAP = {'AdaGrad': ada_opt, 'Adam': adam_opt, 'Adam_alpha': adam_baydin, 'SGD': sgd_opt, 'RMSProp': rms_opt, 'NoOp': noop}
     DATASET_MAP = {'MNIST': mnist, 'CIFAR': cifar, 'WarAndPeace': WarAndPeace}
@@ -51,6 +53,7 @@ if __name__ == '__main__':
     parser.add_argument('--optimizer_args', nargs='*', action=StoreDictKeyPair)
     parser.add_argument('--hyperoptimizer', choices=OPT_MAP.keys(), required=True)
     parser.add_argument('--hyperoptimizer_args', nargs='*', action=StoreDictKeyPair)
+    parser.add_argument('--num_hyperoptimizers', type=int, default=0)
     parser.add_argument('--loss_fn', choices=LOSS_MAP.keys(), required=True)
     parser.add_argument('--dataset', choices=DATASET_MAP.keys(), required=True)
     parser.add_argument('--alpha', type=float, default=0.01)
@@ -150,5 +153,40 @@ if __name__ == '__main__':
             experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"baseline")
         else:
             experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.alpha}")
-    elif args.model == 'stacking':
-        pass
+    elif args.model == 'stacked_NN':
+        # optimizer definition
+        model = MODEL_MAP[args.model].to(device)
+        alpha_values = []
+
+        if args.num_hyperoptimizers > 0:
+            scaling = lambda layer : args.alpha / (100 * (1+layer))
+            alpha_final = scaling(args.num_hyperoptimizers)
+
+            alpha_values.insert(0, alpha_final)
+        
+            hyperoptimizers = hyperoptim_func(alpha_final, **args.hyperoptimizer_args)
+            for layer in range(args.num_hyperoptimizers-1, 0, -1):
+                hyperoptimizers = hyperoptim_func(scaling(layer), **args.hyperoptimizer_args, optimizer=hyperoptimizers)
+                alpha_values.insert(0, scaling(layer))
+
+            optimizer = optim_func(args.alpha, **args.optimizer_args, optimizer=hyperoptimizers)
+            alpha_values.insert(0, args.alpha)
+        else:
+            optimizer = optim_func(args.alpha, **args.optimizer_args)
+
+        trainset, testset, trainloader, testloader = DATASET_MAP[args.dataset](args.batch_size)
+
+        # logging
+        print(f"Args:")
+        for arg, value in vars(args).items():
+            print(f"\t{arg}: {value}", flush=True)
+
+        alphas = {index: value for index, value in enumerate(alpha_values)}
+        print(f"\tAlpha Values: {alphas}")
+
+        # perform experiments
+        experiments = Experimentation(model, args.model, loss_function, optimizer, args.num_epochs, trainloader, testloader, args.batch_size, device)
+
+        experiments.train()
+        experiments.test()
+        experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.alpha}/{args.num_hyperoptimizers}")
