@@ -1,0 +1,57 @@
+Args:
+	model: stacked_NN
+	optimizer: SGD
+	optimizer_args: {}
+	hyperoptimizer: RMSProp
+	hyperoptimizer_args: {}
+	num_hyperoptimizers: 0
+	loss_fn: CrossEntropyLoss
+	dataset: MNIST
+	alpha: 1.0
+	kappa: None
+	num_epochs: 20
+	batch_size: 1024
+	baseline: False
+	device: cuda
+	Alpha Values: {}
+	Using 4 GPUs
+
+***Beginning Training***
+	Initial Train Loss: 2.2928077096303303
+	Epoch[1/20]: Training Loss = 0.82146
+	Epoch[2/20]: Training Loss = 0.27225
+	Epoch[3/20]: Training Loss = 0.20489
+	Epoch[4/20]: Training Loss = 0.16642
+	Epoch[5/20]: Training Loss = 0.14441
+	Epoch[6/20]: Training Loss = 0.12745
+	Epoch[7/20]: Training Loss = 0.11432
+	Epoch[8/20]: Training Loss = 0.10305
+	Epoch[9/20]: Training Loss = 0.09436
+	Epoch[10/20]: Training Loss = 0.08496
+	Epoch[11/20]: Training Loss = 0.08029
+	Epoch[12/20]: Training Loss = 0.07392
+	Epoch[13/20]: Training Loss = 0.06927
+	Epoch[14/20]: Training Loss = 0.06459
+	Epoch[15/20]: Training Loss = 0.05965
+	Epoch[16/20]: Training Loss = 0.05705
+	Epoch[17/20]: Training Loss = 0.05285
+	Epoch[18/20]: Training Loss = 0.05034
+	Epoch[19/20]: Training Loss = 0.04806
+	Epoch[20/20]: Training Loss = 0.04576
+***Training Complete***
+
+Final Optimizer Parameters
+	alpha : 1.0
+	mu : 0.0
+
+***Testing Results***
+==============================
+Test Accuracy = 97.720 %
+Test Error = 2.280 %
+==============================
+
+Plotted Lists:
+Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alpha: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+mu: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Loss: [2.2928077096303303, 0.8214556193828583, 0.2722540294567744, 0.204891201877594, 0.1664201746702194, 0.14440578117370606, 0.12744659295082092, 0.1143201883037885, 0.1030472810904185, 0.09436113873322804, 0.08496093790133794, 0.08028763966163, 0.07392014377514522, 0.069273522122701, 0.06459358550707499, 0.05965382610559464, 0.0570467243373394, 0.05285243782401085, 0.0503430370370547, 0.048064765099684395, 0.0457611755212148]

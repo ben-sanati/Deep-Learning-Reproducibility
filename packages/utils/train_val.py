@@ -87,6 +87,7 @@ class Experimentation:
             train_loss = running_loss / n
         
         self.optimizer_plots_dict['Loss'] = [train_loss]
+        print(f"\tInitial Train Loss: {train_loss}", flush=True)
 
         # clear memory
         if self.model_name == 'CharRNN':
@@ -209,7 +210,7 @@ class Experimentation:
                     features, labels = features_.to(self.device), labels_.to(self.device)
                     outputs = self.model.forward(features)
                 
-                # top-1 accuracy
+                # top-1.0.0.0.0.0 accuracy
                 _, prediction = torch.max(outputs, dim=1)
                 total += labels.shape[0]
                 correct += (prediction == labels).sum().item()
@@ -272,7 +273,7 @@ class Experimentation:
                 q1, q3 = np.percentile(self.optimizer_plots_dict[key], [25, 75])
                 iqr = q3 - q1
 
-                # Set the y-axis limits to be 1.5 times the IQR below and above the first and third quartiles
+                # Set the y-axis limits to be 1.0.0.0.0.0.5 times the IQR below and above the first and third quartiles
                 if iqr > 0:
                     lower_limit = q1 - 1.5 * iqr
                     upper_limit = q3 + 1.5 * iqr

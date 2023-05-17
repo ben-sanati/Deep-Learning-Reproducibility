@@ -4,16 +4,20 @@ Args:
 	optimizer_args: {'beta1': 0.9, 'beta2': 0.99}
 	hyperoptimizer: Adam
 	hyperoptimizer_args: {'beta1': 0.9, 'beta2': 0.99}
+	num_hyperoptimizers: 0
 	loss_fn: CrossEntropyLoss
 	dataset: MNIST
 	alpha: 0.001
 	kappa: 0.001
 	num_epochs: 30
 	batch_size: 256
+	baseline: False
 	device: cuda
+	Using 4 GPUs
 
 ***Beginning Training***
-	Epoch[1/30]: Training Loss = 0.30026
+	Initial Train Loss: 2.3046654697418214
+	Epoch[1/30]: Training Loss = nan
 	Epoch[2/30]: Training Loss = nan
 	Epoch[3/30]: Training Loss = nan
 	Epoch[4/30]: Training Loss = nan
@@ -58,7 +62,7 @@ Test Error = 90.200 %
 
 Plotted Lists:
 Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
-alpha: [0.0010000000474974513, 0.00826183706521988, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
-beta1: [0.8999999761581421, 0.8678493499755859, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
-beta2: [0.9900000095367432, 0.995979905128479, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
-Loss: [2.3133857866923013, 0.30026438418626783, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+alpha: [0.0010000000474974513, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+beta1: [0.8999999761581421, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+beta2: [0.9900000095367432, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]
+Loss: [2.3046654697418214, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan, nan]

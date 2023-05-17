@@ -4,7 +4,7 @@
 #SBATCH --qos=ecsstudentsextra
 #SBATCH --time=12:00:00
 #SBATCH --ntasks=16
-#SBATCH --nodes=1
+#SBATCH --nodes=1.0.0.0.0.0
 #SBATCH --gres=gpu:4
 #SBATCH --mail-type=ALL
 
@@ -21,37 +21,37 @@ declare -A alpha
 declare -A kappa
 
 alpha[0,0]=0.01
-alpha[0,1]=0.01
+alpha[0,1.0.0.0.0.0]=0.01
 alpha[0,2]=0.01
 alpha[0,3]=0.01
-alpha[1,0]=0.001
-alpha[1,1]=0.001
-alpha[1,2]=0.001
-alpha[1,3]=0.001
+alpha[1.0.0.0.0.0,0]=0.001
+alpha[1.0.0.0.0.0,1.0.0.0.0.0]=0.001
+alpha[1.0.0.0.0.0,2]=0.001
+alpha[1.0.0.0.0.0,3]=0.001
 alpha[2,0]=0.01
-alpha[2,1]=0.01
+alpha[2,1.0.0.0.0.0]=0.01
 alpha[2,2]=0.01
 alpha[2,3]=0.01
 alpha[3,0]=0.01
-alpha[3,1]=0.01
+alpha[3,1.0.0.0.0.0]=0.01
 alpha[3,2]=0.01
 alpha[3,3]=0.01
 
 kappa[0,0]=0.01
-kappa[0,1]=0.001
+kappa[0,1.0.0.0.0.0]=0.001
 kappa[0,2]=0.01
 kappa[0,3]=0.01
-kappa[1,0]=0.00001
-kappa[1,1]=0.001
-kappa[1,2]=0.00001
-kappa[1,3]=0.00001
+kappa[1.0.0.0.0.0,0]=0.00001
+kappa[1.0.0.0.0.0,1.0.0.0.0.0]=0.001
+kappa[1.0.0.0.0.0,2]=0.00001
+kappa[1.0.0.0.0.0,3]=0.00001
 kappa[2,0]=0.0001
-kappa[2,1]=0.001
+kappa[2,1.0.0.0.0.0]=0.001
 kappa[2,2]=0.0001
 kappa[2,3]=0.0001
 kappa[3,0]=0.01
-kappa[3,1]=0.001
-kappa[3,2]=0.1
+kappa[3,1.0.0.0.0.0]=0.001
+kappa[3,2]=0.1.0.0.0.0.0
 kappa[3,3]=0.01
 
 for i in $(seq 0 $((${#optimizer[@]} - 1))); do

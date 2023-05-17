@@ -1,0 +1,57 @@
+Args:
+	model: stacked_NN
+	optimizer: SGD
+	optimizer_args: {}
+	hyperoptimizer: RMSProp
+	hyperoptimizer_args: {}
+	num_hyperoptimizers: 4
+	loss_fn: CrossEntropyLoss
+	dataset: MNIST
+	alpha: 1.0
+	kappa: None
+	num_epochs: 20
+	batch_size: 1024
+	baseline: False
+	device: cuda
+	Alpha Values: {0: 1.0, 1: 0.005, 2: 0.0033333333333333335, 3: 0.0025, 4: 0.002}
+	Using 4 GPUs
+
+***Beginning Training***
+	Initial Train Loss: 2.2928077096303303
+	Epoch[1/20]: Training Loss = 0.76892
+	Epoch[2/20]: Training Loss = 0.30347
+	Epoch[3/20]: Training Loss = 0.27708
+	Epoch[4/20]: Training Loss = 0.26306
+	Epoch[5/20]: Training Loss = 0.25196
+	Epoch[6/20]: Training Loss = 0.24214
+	Epoch[7/20]: Training Loss = 0.23403
+	Epoch[8/20]: Training Loss = 0.22791
+	Epoch[9/20]: Training Loss = 0.22156
+	Epoch[10/20]: Training Loss = 0.21609
+	Epoch[11/20]: Training Loss = 0.21108
+	Epoch[12/20]: Training Loss = 0.20639
+	Epoch[13/20]: Training Loss = 0.20190
+	Epoch[14/20]: Training Loss = 0.19764
+	Epoch[15/20]: Training Loss = 0.19356
+	Epoch[16/20]: Training Loss = 0.18981
+	Epoch[17/20]: Training Loss = 0.18604
+	Epoch[18/20]: Training Loss = 0.18261
+	Epoch[19/20]: Training Loss = 0.17930
+	Epoch[20/20]: Training Loss = 0.17598
+***Training Complete***
+
+Final Optimizer Parameters
+	alpha : 0.09613774716854095
+	mu : 0.0
+
+***Testing Results***
+==============================
+Test Accuracy = 94.950 %
+Test Error = 5.050 %
+==============================
+
+Plotted Lists:
+Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alpha: [1.0, 0.4781939685344696, 0.14041119813919067, 0.13406845927238464, 0.12787045538425446, 0.12786757946014404, 0.11023750901222229, 0.07377079129219055, 0.11598871648311615, 0.09613776206970215, 0.09613776206970215, 0.09613776206970215, 0.09613774716854095, 0.09613774716854095, 0.09613774716854095, 0.09613774716854095, 0.09613774716854095, 0.09613774716854095, 0.09613774716854095, 0.09613774716854095, 0.09613774716854095]
+mu: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Loss: [2.2928077096303303, 0.7689161284923554, 0.30346679418881733, 0.27708084909121194, 0.263060120121638, 0.25195850335756936, 0.24213756067752837, 0.23402576231161754, 0.22791386903127034, 0.2215584892908732, 0.21609078044891358, 0.21107815299828847, 0.20639439361890158, 0.20189727732340496, 0.19763748240470885, 0.1935633069594701, 0.18981085772514344, 0.18604079789320627, 0.18261388228734335, 0.1793005763610204, 0.17597658290068308]

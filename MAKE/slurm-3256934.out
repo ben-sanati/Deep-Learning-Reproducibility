@@ -1,0 +1,20 @@
+==============================================================================
+Running epilogue script on alpha55.
+
+Submit time  : 2023-05-16T16:58:25
+Start time   : 2023-05-16T17:58:30
+End time     : 2023-05-16T19:34:19
+Elapsed time : 01:35:49 (Timelimit=12:00:00)
+
+Job ID: 3256934
+Cluster: i5
+User/Group: bes1g19/fp
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 16
+CPU Utilized: 01:47:49
+CPU Efficiency: 7.03% of 1-01:33:04 core-walltime
+Job Wall-clock time: 01:35:49
+Memory Utilized: 4.03 GB
+Memory Efficiency: 4.78% of 84.38 GB
+

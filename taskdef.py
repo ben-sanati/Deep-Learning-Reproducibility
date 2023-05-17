@@ -20,6 +20,7 @@ from packages.utils.dataset_defs import *
 from packages.hyperoptimizer.optimize import *
 from packages.utils.train_val import Experimentation
 
+
 class StoreDictKeyPair(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         my_dict = {}
@@ -31,6 +32,13 @@ class StoreDictKeyPair(argparse.Action):
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
+
+    # make the output deterministic
+    seed = 7
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
     # optimizer definitions
     ada_opt = lambda : gdtuoAdaGrad

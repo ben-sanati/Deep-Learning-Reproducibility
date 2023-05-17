@@ -9,7 +9,7 @@ Args:
 	dataset: MNIST
 	alpha: 1e-06
 	kappa: None
-	num_epochs: 10
+	num_epochs: 20
 	batch_size: 1024
 	baseline: False
 	device: cuda
@@ -17,37 +17,48 @@ Args:
 	Using 4 GPUs
 
 ***Beginning Training***
-	Epoch[1/10]: Training Loss = 2.29681
-	Epoch[2/10]: Training Loss = 2.29679
-	Epoch[3/10]: Training Loss = 2.29677
-	Epoch[4/10]: Training Loss = 2.29675
-	Epoch[5/10]: Training Loss = 2.29673
-	Epoch[6/10]: Training Loss = 2.29670
-	Epoch[7/10]: Training Loss = 2.29666
-	Epoch[8/10]: Training Loss = 2.29663
-	Epoch[9/10]: Training Loss = 2.29659
-	Epoch[10/10]: Training Loss = 2.29655
+	Initial Train Loss: 2.2928077096303303
+	Epoch[1/20]: Training Loss = 2.29280
+	Epoch[2/20]: Training Loss = 2.29279
+	Epoch[3/20]: Training Loss = 2.29277
+	Epoch[4/20]: Training Loss = 2.29276
+	Epoch[5/20]: Training Loss = 2.29273
+	Epoch[6/20]: Training Loss = 2.29271
+	Epoch[7/20]: Training Loss = 2.29268
+	Epoch[8/20]: Training Loss = 2.29265
+	Epoch[9/20]: Training Loss = 2.29262
+	Epoch[10/20]: Training Loss = 2.29259
+	Epoch[11/20]: Training Loss = 2.29255
+	Epoch[12/20]: Training Loss = 2.29251
+	Epoch[13/20]: Training Loss = 2.29246
+	Epoch[14/20]: Training Loss = 2.29242
+	Epoch[15/20]: Training Loss = 2.29237
+	Epoch[16/20]: Training Loss = 2.29231
+	Epoch[17/20]: Training Loss = 2.29226
+	Epoch[18/20]: Training Loss = 2.29220
+	Epoch[19/20]: Training Loss = 2.29214
+	Epoch[20/20]: Training Loss = 2.29208
 ***Training Complete***
 
 Final Optimizer Parameters
-	alpha : 3.978395398007706e-06
+	alpha : 6.928579296072712e-06
 	mu : 0.0
 
 ***Testing Results***
 ==============================
-Test Accuracy = 13.970 %
-Test Error = 86.030 %
+Test Accuracy = 13.430 %
+Test Error = 86.570 %
 ==============================
 
 Plotted Lists:
-Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-alpha: [9.999999974752427e-07, 1.3254813211460714e-06, 1.6199463743760134e-06, 1.9149499621562427e-06, 2.2100075511843897e-06, 2.5053095669136383e-06, 2.7987955490971217e-06, 3.0939361295168055e-06, 3.3886085475387517e-06, 3.6832125260843895e-06, 3.978395398007706e-06]
-mu: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-Loss: [0.0022585192759831747, 2.2968089117685953, 2.2967935314178467, 2.2967746742248534, 2.2967524580637613, 2.2967266876220704, 2.296697464116414, 2.2966649559020995, 2.2966288597106934, 2.296589346694946, 2.2965464223225913]
+Epochs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+alpha: [9.999999974752427e-07, 1.3258745639177505e-06, 1.6201423704842455e-06, 1.9156327653035987e-06, 2.2106862616055878e-06, 2.5055671812879154e-06, 2.7998974019283196e-06, 3.0951509870646987e-06, 3.3893841191456886e-06, 3.6845565318799345e-06, 3.979537268605782e-06, 4.273314971214859e-06, 4.5688643695029896e-06, 4.8632514335622545e-06, 5.158570729690837e-06, 5.4534029914066195e-06, 5.74808018427575e-06, 6.043728717486374e-06, 6.337983450066531e-06, 6.633092198171653e-06, 6.928579296072712e-06]
+mu: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Loss: [2.2928077096303303, 2.292802453994751, 2.2927898282368977, 2.292774275970459, 2.2927559823354087, 2.2927347391764323, 2.2927107257843016, 2.292683856455485, 2.2926541352589926, 2.292621586227417, 2.2925861943562826, 2.2925479305267333, 2.2925069254557293, 2.292463000488281, 2.2924162949879965, 2.292366757329305, 2.292314353052775, 2.2922591875712075, 2.2922011360168457, 2.292140200297038, 2.2920765069325766]
 Traceback (most recent call last):
-  File "/scratch/bes1g19/DeepLearning/CW/taskdef.py", line 192, in <module>
+  File "/scratch/bes1g19/DeepLearning/CW/taskdef.py", line 200, in <module>
     experiments.plot(args.alpha, args.kappa, args.optimizer, args.optimizer_args, args.hyperoptimizer, args.hyperoptimizer_args, args.model, f"{args.alpha}/{args.num_hyperoptimizers}")
-  File "/mainfs/scratch/bes1g19/DeepLearning/CW/packages/utils/train_val.py", line 287, in plot
+  File "/mainfs/scratch/bes1g19/DeepLearning/CW/packages/utils/train_val.py", line 279, in plot
     plt.savefig(f'../plots/{src}/{path}.png')
   File "/lyceum/bes1g19/.conda/envs/py3venv/lib/python3.10/site-packages/matplotlib/pyplot.py", line 977, in savefig
     res = fig.savefig(*args, **kwargs)

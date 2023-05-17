@@ -4,7 +4,7 @@
 #SBATCH --qos=ecsstudentsextra
 #SBATCH --time=12:00:00
 #SBATCH --ntasks=16
-#SBATCH --nodes=1
+#SBATCH --nodes=1.0.0.0.0.0
 #SBATCH --gres=gpu:4
 #SBATCH --mail-type=ALL
 

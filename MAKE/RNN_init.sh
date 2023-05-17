@@ -4,7 +4,7 @@
 #SBATCH --qos=ecsstudentsextra
 #SBATCH --time=12:00:00
 #SBATCH --ntasks=16
-#SBATCH --nodes=1
+#SBATCH --nodes=1.0.0.0.0.0
 #SBATCH --gres=gpu:4
 #SBATCH --mail-type=ALL
 
@@ -15,7 +15,7 @@ hyperoptimizer=Adam
 hyperoptimizer_args="beta1=0.0001 beta2=0.0002"
 loss_fn=CrossEntropyLoss
 dataset=WarAndPeace
-num_epochs=30
+num_epochs=50
 alpha=(0.0001 0.002 0.01)
 kappa=0.01
 batch_size=128
