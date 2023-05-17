@@ -301,7 +301,7 @@ def plot_RNN_data(data_dict, model):
     title.set_position([.5, 0.99])
 
     # Show the plot
-    plt.savefig(f'./comparative_plots/{model}/lr_comparisons.png')
+    plt.savefig(f'./comparative_plots/Training_Loss/{model}/lr_comparisons.png')
 
 
 def plot_CNN_data(data_dict, model):
@@ -359,7 +359,7 @@ def plot_CNN_data(data_dict, model):
         title.set_position([.5, 0.99])
 
         # Save the figure
-        plt.savefig(f'./comparative_plots/{model}/alpha_{alpha}_comparisons.png')
+        plt.savefig(f'./comparative_plots/Training_Loss/{model}/alpha_{alpha}_comparisons.png')
 
 
 def plot_NN_data(data_dict, model):
@@ -371,22 +371,24 @@ def plot_NN_data(data_dict, model):
     baseline_loss = training_losses[baseline_index]
 
     # Determine the number of figures based on the number of optimizers
+    optimizer_loop = list(set(optimizers))
     num_optimizers = len(optimizers)
 
     # Iterate over each optimizer
-    for i, optimizer in enumerate(optimizers):
+    for i, optimizer in enumerate(optimizer_loop):
         # Get the indices of hyperoptimizers corresponding to the current optimizer
-        optimizer_indices = [j for j, opt in enumerate(hyperoptimizers) if opt == optimizer]
+        optimizer_indices = [j for j, opt in enumerate(optimizers) if opt == optimizer]
         num_hyperoptimizers = len(optimizer_indices)
 
         # Create subplots for the current optimizer
         mpl_style(dark=True, minor_ticks=False)
-        fig, axes = plt.subplots(num_hyperoptimizers, 1, figsize=(10, 5 * num_hyperoptimizers))
+        fig, axes = plt.subplots(num_hyperoptimizers-1, 1, figsize=(10, 5 * num_hyperoptimizers))
 
         # Iterate over each hyperoptimizer for the current optimizer
-        for j, hyperoptimizer_idx in enumerate(optimizer_indices):
+        j = 0
+        for hyperoptimizer_idx in optimizer_indices:
             # Skip plotting the baseline hyperoptimizer separately
-            if hyperoptimizer_idx == baseline_index:
+            if hyperoptimizers[hyperoptimizer_idx] == 'NoOp':
                 continue
 
             # Get the training loss for the current optimizer and hyperoptimizer
@@ -409,6 +411,7 @@ def plot_NN_data(data_dict, model):
 
             # Add legend to the subplot
             ax.legend()
+            j+=1
 
         title = plt.suptitle(f'{optimizer} vs Baseline Training Loss Plots')
 
@@ -417,7 +420,7 @@ def plot_NN_data(data_dict, model):
         title.set_position([.5, 0.99])
 
         # Save the figure
-        plt.savefig(f'./comparative_plots/{model}/{optimizer}_comparisons.png')
+        plt.savefig(f'./comparative_plots/Training_Loss/{model}/{optimizer}_comparisons.png')
 
 
 def plot_stack_data(data_dict, model):
@@ -453,12 +456,12 @@ def plot_stack_data(data_dict, model):
 
         # Save the figures
         title.set_position([.5, 0.99])
-        plt.savefig(f'./comparative_plots/{model}/alpha_{alpha}.png')
+        plt.savefig(f'./comparative_plots/Training_Loss/{model}/alpha_{alpha}.png')
         plt.close()
 
 
 if __name__ == '__main__':
-    models = ['CharRNN', 'CNN', 'NN', 'stacked_NN']
+    models = ['NN'] #'CharRNN', 'CNN', 'NN', 'stacked_NN']
 
     # define Function Dictionary
     FUNCTION_DICT = {'CharRNN': [get_RNN_data, plot_RNN_data], 'CNN': [get_CNN_data, plot_CNN_data],
