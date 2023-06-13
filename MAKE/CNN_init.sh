@@ -17,7 +17,6 @@ loss_fn=CrossEntropyLoss
 dataset=CIFAR
 num_epochs=50
 alpha=(0.01 0.1.0.0.0.0.0 1)
-kappa=0
 
 for i in $(seq 0 $((${#alpha[@]} - 1))); do
     al=${alpha[$i]}

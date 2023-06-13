@@ -323,6 +323,8 @@ def plot_CNN_data(data_dict, model):
         if alpha_idx == baseline_index:
             continue
 
+        print(f"Alpha: {alpha}")
+
         # Create subplots for the current alpha
         mu = [d['mu'] for d in parameters if d['alpha'] == alpha]
         num_mu = len(mu)
@@ -331,6 +333,7 @@ def plot_CNN_data(data_dict, model):
 
         # Iterate over each mu for the current alpha
         for mu_idx, m in enumerate(mu):
+            print(f"\tMu: {m}")
             # Get the training loss for the current alpha and mu
             index = next((j for j, d in enumerate(parameters) if d['alpha'] == alpha and d['mu'] == m), None)
             current_loss = training_losses[index]
@@ -461,7 +464,7 @@ def plot_stack_data(data_dict, model):
 
 
 if __name__ == '__main__':
-    models = ['NN'] #'CharRNN', 'CNN', 'NN', 'stacked_NN']
+    models = ['CNN'] #'CharRNN', 'CNN', 'NN', 'stacked_NN']
 
     # define Function Dictionary
     FUNCTION_DICT = {'CharRNN': [get_RNN_data, plot_RNN_data], 'CNN': [get_CNN_data, plot_CNN_data],
@@ -471,7 +474,7 @@ if __name__ == '__main__':
     for model in models:
         print(f"Doing {model} model")
         data = FUNCTION_DICT[model][0](model)
-        print(f"\t{data}")
+        print(f"\t{data['Parameters']}")
 
         # plot data
         FUNCTION_DICT[model][1](data, model)
