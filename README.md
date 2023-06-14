@@ -1,15 +1,3 @@
-Table of Contents
-=================
-
-* [A Reproducibility Study of 'Gradient Descent: The Ultimate Optimizer'](#a-reproducibility-study-of-gradient-descent-the-ultimate-optimizer)
-   * [Reproducibility Report](#reproducibility-report)
-   * [Report Summary](#report-summary)
-      * [Motivation](#motivation)
-      * [Achievements](#achievements)
-      * [**Contributors**](#contributors)
-
-# A Reproducibility Study of 'Gradient Descent: The Ultimate Optimizer'
-
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) &emsp;
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white) &emsp;
 ![VSCODE](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white) &emsp;
@@ -17,13 +5,19 @@ Table of Contents
 ![LaTeX](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white) &emsp;
 ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
-<br />
+Table of Contents
+=================
 
-## Reproducibility Report
+* [A Reproducibility Study of 'Gradient Descent: The Ultimate Optimizer'](#a-reproducibility-study-of-gradient-descent-the-ultimate-optimizer)
+   * [Summary](#summary)
+      * [Motivation](#motivation)
+      * [Achievements](#achievements)
+   * [Reproducibility Report](#reproducibility-report)
+      * [**Contributors**](#contributors)
 
-The reproducibility report providing details of the reproduction can be found [here](COMP6258__Reproducibility_Challenge.pdf).
+# A Reproducibility Study of 'Gradient Descent: The Ultimate Optimizer'
 
-## Report Summary
+## Summary
 
 ### Motivation 
 
@@ -52,6 +46,11 @@ identifying diminishing returns in performance for every higher-order hyperoptim
 Future work should aim to further investigate the effect of these taller high-order hyperoptimizers; in particular, the
 temporal and robustness effects of very tall hyperoptimizers. There should also be work put towards the production of
 a better function for identifying $κ_{layer}$.
+
+
+## Reproducibility Report
+
+The reproducibility report providing details of the reproduction can be found [here](COMP6258__Reproducibility_Challenge.pdf).
 
 ### **Contributors**
 
