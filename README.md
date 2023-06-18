@@ -9,17 +9,14 @@ Table of Contents
 =================
 
 * [A Reproducibility Study of 'Gradient Descent: The Ultimate Optimizer'](#a-reproducibility-study-of-gradient-descent-the-ultimate-optimizer)
-   * [Summary](#summary)
-      * [Motivation](#motivation)
-      * [Achievements](#achievements)
+   * [Motivation](#motivation)
+   * [Achievements](#achievements)
    * [Reproducibility Report](#reproducibility-report)
       * [**Contributors**](#contributors)
 
 # A Reproducibility Study of 'Gradient Descent: The Ultimate Optimizer'
 
-## Summary
-
-### Motivation 
+## Motivation 
 
 Optimising machine learning models using a gradient-based approach involves the laborious tuning of hyper-parameter values. Recent work has sought to address this issue by implementing hyperoptimisers that make use of automatic differentiation to compute the optimal hyperparameter values
 during the standard training process. 
@@ -29,7 +26,7 @@ functions.
 
 This report presents an assessment of the reproducibility of this work, considering if both its implementation details can be followed and its findings reproduced, as well as exploring some aspects that the work fails to address. 
 
-### Achievements
+## Achievements
 
 The findings support the claims proposed by Chandra et al. (2022) and further insight was provided regarding additional features of interest in more depth.
 
@@ -46,7 +43,6 @@ identifying diminishing returns in performance for every higher-order hyperoptim
 Future work should aim to further investigate the effect of these taller high-order hyperoptimizers; in particular, the
 temporal and robustness effects of very tall hyperoptimizers. There should also be work put towards the production of
 a better function for identifying $κ_{layer}$.
-
 
 ## Reproducibility Report
 
